@@ -4,6 +4,6 @@
 
 ## Description
 
-Your project description goes here. What problem did you solve? How did you solve it?
+Your project description goes here. What problem did you solve? How did you solve it? //Server side calculator project. 
 
 Additional README details can be found [here](https://github.com/PrimeAcademy/readme-template/blob/master/README.md).

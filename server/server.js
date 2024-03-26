@@ -8,14 +8,49 @@ app.use(express.static('server/public'));
 // Global variable that will contain all of the
 // calculation objects:
 let calculations = []
-
+let results = [];
+let resultHistory = [];
 
 // Here's a wonderful place to make some routes:
-
 // GET /calculations
-
 // POST /calculations
+app.get('/results' , (req, res) => {
+  console.log('GET request for /results');
+  res.send(results);
+})
 
+app.get('/history' , (req, res) => {
+  console.log('GET request for results history');
+  res.send(resultHistory);
+})
+
+app.post('/history' , (req, res) => {
+  console.log('POST request for /history');
+  let numbersToAdd = req.body;
+  let newResult;
+
+  if (numbersToAdd.operator === '+') {
+      newResult = Number(numbersToAdd.number1) + Number(numbersToAdd.number2);
+  }else if (numbersToAdd.operator === '-'){
+      newResult = Number(numbersToAdd.number1) - Number(numbersToAdd.number2);
+  }else if (numbersToAdd.operator === '*'){
+      newResult = Number(numbersToAdd.number1) * Number(numbersToAdd.number2);
+  }else if (numbersToAdd.operator === '/'){
+      newResult = Number(numbersToAdd.number1) / Number(numbersToAdd.number2);
+  }
+
+  let calculation = `${numbersToAdd.number1} ${numbersToAdd.operator} ${numbersToAdd.number2} = ${newResult}`
+  resultHistory.push(calculation);
+  results.push(newResult);
+  res.sendStatus(201);
+})
+
+app.delete('/history/:id' , (req, res) => {
+  console.log(req.params.id);
+  const deleteIndex = Number(req.params.id);
+  resultHistory = resultHistory.filter((numbers, index) => index !== deleteIndex);
+  res.sendStatus(204);
+})
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
 // 🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸  🐻  🐻‍❄️  🧸
